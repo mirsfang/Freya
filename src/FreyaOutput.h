@@ -10,7 +10,8 @@
 *  @note         
 *
 */
-#pragma once
+#ifndef FREYA_OUTPUT
+#define FREYA_OUTPUT
 
 #include <functional>
 namespace FREYA {
@@ -26,3 +27,4 @@ namespace FREYA {
 	void runSynchronouslyOnVideoProcessingQueue(FreyaRunnable runable);
 
 };
+#endif // FREYA_OUTPUT

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef FREYA_PROGRAM
+#define FREYA_PROGRAM
 
 #include <glad/glad.h>
 #include <memory>
@@ -13,8 +14,6 @@ namespace FREYA {
 		~FreyaProgram();
 	public:
 		bool initialized = { false };
-		std::string vertexShaderLog;
-		std::string fragmentShaderLog;
 		std::string programLog;
 	protected:
 		std::vector<std::string> attributes;
@@ -88,3 +87,4 @@ namespace FREYA {
 	typedef std::shared_ptr<FreyaProgram> FreyaProgramPtr;
 
 }
+#endif

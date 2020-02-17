@@ -10,7 +10,9 @@
 *  @note		需要各个平台实现该类
 *
 */
-#pragma once
+#ifndef FREYA_LOG
+#define FREYA_LOG
+
 
 #include <string>
 #include <stdarg.h>
@@ -55,7 +57,22 @@ namespace FREYA {
 		*  @param[in]   LogType 枚举
 		*  @return      枚举对应的字符串
 		**/
-		static char* get_log_type(FREYA::LogType type);
+		static char* get_log_type(FREYA::LogType type) {
+			switch (type)
+			{
+			case FREYA::LogType::FREYA_INFO:
+				return FREYA_LOG_TYPE_INFO;
+			case FREYA::LogType::FREYA_DEBUG:
+				return FREYA_LOG_TYPE_DEBUG;
+			case FREYA::LogType::FREYA_WARNING:
+				return FREYA_LOG_TYPE_WARNING;
+			case FREYA::LogType::FREYA_ERROR:
+				return FREYA_LOG_TYPE_ERROR;
+			default:
+				return FREYA_LOG_TYPE_INFO;
+			}
+		}
+
 
 		/**
 		*  @date        2020/02/15 22:07
@@ -65,7 +82,13 @@ namespace FREYA {
 		*  @param[in]   arglist		  需要格式化的可变变量
 		*  @return      格式化之后的字符串
 		**/
-		static std::string& format_str(std::string& str_formatted, const char* str_format, va_list arglist);
+		static std::string& format_str(std::string& str_formatted, const char* str_format, va_list arglist) {
+			const int MAX_FORMATTED_STR_LEN = 2048;
+			char strResult[MAX_FORMATTED_STR_LEN] = { 0 };
+			vsprintf_s(strResult, str_format, arglist);
+			str_formatted = strResult;
+			return str_formatted;
+		}
 
 
 		/**
@@ -88,7 +111,12 @@ namespace FREYA {
 		*  @param[in]   ... 需要格式化输出的变量
 		*  @return
 		*/
-		static void FLOGE(const char* msg, ...);
+		static void FLOGE(const char* msg, ...) {
+			va_list arglist;
+			va_start(arglist, msg);
+			print_log(LogType::FREYA_ERROR, msg, arglist);
+			va_end(msg);
+		}
 
 		/**
 		*  @date        2020/02/15 21:48
@@ -97,7 +125,12 @@ namespace FREYA {
 		*  @param[in]   ... 需要格式化输出的变量
 		*  @return
 		*/
-		static void FLOGW(const char* msg, ...);
+		static void FLOGW(const char* msg, ...) {
+			va_list arglist;
+			va_start(arglist, msg);
+			print_log(LogType::FREYA_WARNING, msg, arglist);
+			va_end(msg);
+		}
 
 		/**
 		*  @date        2020/02/15 21:51
@@ -107,6 +140,13 @@ namespace FREYA {
 		*  @param[in]   ... 需要格式化输出的变量
 		*  @return
 		**/
-		static void FLOGD(const char* msg, ...);
+		static void FLOGD(const char* msg, ...) {
+			va_list arglist;
+			va_start(arglist, msg);
+			print_log(LogType::FREYA_DEBUG, msg, arglist);
+			va_end(msg);
+		}
 	};
 }
+
+#endif

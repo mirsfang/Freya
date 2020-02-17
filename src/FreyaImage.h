@@ -1,4 +1,6 @@
 #pragma once
+#ifndef FREYA_IMAGE
+#define FREYA_IMAGE
 
 #include <memory>
 #include <glad/glad.h>
@@ -20,3 +22,4 @@ namespace FREYA {
 	typedef std::shared_ptr<FreyaImage> FreyaImagePtr;
 
 };
+#endif//FREYA_IMAGE

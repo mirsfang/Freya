@@ -7,14 +7,16 @@
 *  @date        2020/02/16 19:01
 *
 *  @brief       FBO缓存相关
-*  @note        
+*  @note
 *
 */
-#pragma once
+#ifndef FREYA_FRAME_BUFFER_CACHE
+#define FREYA_FRAME_BUFFER_CACHE
+
 
 #include <memory>
 
-namespace FREYA { 
+namespace FREYA {
 	class FreyeFrameBuffer;
 	/**
 	*  @author      Mirs(mirsfang@163.com)
@@ -22,7 +24,7 @@ namespace FREYA {
 	*  @class       FreyaFrameBufferCache
 	*  @brief       FBO缓存池
 	*/
-	class FreyaFrameBufferCache:std::enable_shared_from_this<FreyaFrameBufferCache>
+	class FreyaFrameBufferCache :std::enable_shared_from_this<FreyaFrameBufferCache>
 	{
 	public:
 		FreyaFrameBufferCache();
@@ -36,9 +38,11 @@ namespace FREYA {
 		**/
 		void returnFramebufferToCache(std::shared_ptr<FreyeFrameBuffer> buffer);
 	private:
-		
+
 	};
 
 	typedef std::shared_ptr<FreyaFrameBufferCache> FreyaFrameBufferCachePtr;
 
 };
+
+#endif //FREYA_FRAME_BUFFER

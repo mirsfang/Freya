@@ -55,7 +55,7 @@ namespace FREYA {
 		if (std::find(attributes.begin(), attributes.end(), attributeName) != attributes.end())
 		{
 			attributes.push_back(attributeName);
-			glBindAttribLocation(program, attributes.size() - 1, attributeName.c_str());
+			glBindAttribLocation(program, (GLuint)attributes.size() - 1, attributeName.c_str());
 		}
 	}
 
@@ -147,12 +147,6 @@ namespace FREYA {
 			if (longLength > 0) {
 				GLchar* log = (GLchar*)malloc(longLength);
 				glGetShaderInfoLog(*shader, longLength, &longLength, log);
-				if (shader == &verShader) {
-					this->vertexShaderLog = log;
-				}
-				else {
-					this->fragmentShaderLog = log;
-				}
 				fr_loge(log);
 				free(log);
 			}

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef FREYA_CONTEXT
+#define FREYA_CONTEXT
 
 #include <memory>
 
@@ -34,3 +35,5 @@ namespace FREYA {
 	typedef std::shared_ptr<FreyaContext> FreyaContextPtr;
 
 };
+
+#endif

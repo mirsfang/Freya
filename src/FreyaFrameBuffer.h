@@ -9,7 +9,8 @@
 *  @brief       FrameBuffer封装类
 *
 */
-#pragma once
+#ifndef FREYA_FRAME_BUFFER
+#define FREYA_FRAME_BUFFER
 
 #include <memory>
 #include <glad/glad.h>
@@ -141,3 +142,4 @@ namespace FREYA {
 	typedef std::shared_ptr<FreyeFrameBuffer>  FreyeFrameBufferPtr;
 
 };
+#endif // FREYA_FRAME_BUFFER
