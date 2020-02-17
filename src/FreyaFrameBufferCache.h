@@ -13,11 +13,13 @@
 #ifndef FREYA_FRAME_BUFFER_CACHE
 #define FREYA_FRAME_BUFFER_CACHE
 
-
 #include <memory>
 
+#include "Freya.h"
+#include "FreyaFrameBuffer.h"
+
 namespace FREYA {
-	class FreyeFrameBuffer;
+	
 	/**
 	*  @author      Mirs(mirsfang@163.com)
 	*  @date        2020/02/16 19:02
@@ -32,11 +34,21 @@ namespace FREYA {
 	public:
 
 		/**
+		*  @date        2020/02/17 12:15
+		*  @brief       根据size在fbo的缓存池中获取一个fbo
+		*  @param[in]   framebufferSize fbo 的宽高
+		*  @param[in]   textureOptions  纹理选项
+		*  @param[in]	onlyTexture     只支持纹理
+		*  @return      fbo的智能指针
+		**/
+		std::shared_ptr<FreyaFrameBuffer> fetchFramebufferForSize(FreyaSize framebufferSize, FreyaTextureOptions textureOptions,bool onlyTexture);
+
+		/**
 		*  @date        2020/02/16 19:02
 		*  @brief       将fbo返回到缓存池中
 		*  @param[in]   buffer  fbo
 		**/
-		void returnFramebufferToCache(std::shared_ptr<FreyeFrameBuffer> buffer);
+		void returnFramebufferToCache(std::shared_ptr<FreyaFrameBuffer> buffer);
 	private:
 
 	};

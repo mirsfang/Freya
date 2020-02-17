@@ -44,14 +44,14 @@ namespace FREYA {
 	*  @class       FreyeFrameBuffer
 	*  @brief       帧缓冲的封装类
 	*/
-	class FreyeFrameBuffer :public std::enable_shared_from_this<FreyeFrameBuffer>
+	class FreyaFrameBuffer :public std::enable_shared_from_this<FreyaFrameBuffer>
 	{
 	public:
-		FreyeFrameBuffer(GLint width, GLint height, FreyaTextureOptions textureOptions, bool onlyGenerateTexture);
+		FreyaFrameBuffer(GLint width, GLint height, FreyaTextureOptions textureOptions, bool onlyGenerateTexture);
 
-		FreyeFrameBuffer(GLint width, GLint height, GLuint inputTexture);
+		FreyaFrameBuffer(GLint width, GLint height, GLuint inputTexture);
 
-		~FreyeFrameBuffer();
+		~FreyaFrameBuffer();
 	private:
 		/// fbo 的宽度
 		GLint width{ 0 };
@@ -62,7 +62,7 @@ namespace FREYA {
 		/// 纹理Id
 		GLuint texture{ 0 };
 
-		bool missingFramebuffer;
+		bool missingFramebuffer = false;
 	private:
 		/// fbo
 		GLuint framebuffer = { 0 };
@@ -139,7 +139,7 @@ namespace FREYA {
 		void destoryFramebuffer();
 	};
 
-	typedef std::shared_ptr<FreyeFrameBuffer>  FreyeFrameBufferPtr;
+	typedef std::shared_ptr<FreyaFrameBuffer>  FreyaFrameBufferPtr;
 
 };
 #endif // FREYA_FRAME_BUFFER

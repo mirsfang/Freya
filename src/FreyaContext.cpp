@@ -1,23 +1,22 @@
 #include "FreyaContext.h"
 
-#include "FreyaFrameBufferCache.h"
+namespace FREYA {
 
-FREYA::FreyaContext::FreyaContext()
-{
+	FreyaContext::FreyaContext()
+	{
+	}
+
+	FREYA::FreyaContext::~FreyaContext()
+	{
+	}
+
+	void FreyaContext::useImageProcessingContext()
+	{
+	}
+
+	std::shared_ptr<FreyaFrameBufferCache> FreyaContext::currentFramebufferCache()
+	{
+		return std::shared_ptr<FreyaFrameBufferCache>();
+	}
+
 }
-
-FREYA::FreyaContext::~FreyaContext()
-{
-}
-
-void FREYA::FreyaContext::useImageProcessingContext()
-{
-}
-
-std::shared_ptr<FREYA::FreyaFrameBufferCache> FREYA::FreyaContext::currentFramebufferCache()
-{
-	return std::shared_ptr<FreyaFrameBufferCache>();
-}
-
-
-

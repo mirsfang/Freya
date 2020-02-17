@@ -1,5 +1,5 @@
 #include "FreyaFrameBufferCache.h"
-#include "FreyaFrameBuffer.h"
+
 
 namespace FREYA {
 
@@ -11,7 +11,12 @@ namespace FREYA {
 	{
 	}
 
-	void FreyaFrameBufferCache::returnFramebufferToCache(std::shared_ptr<FreyeFrameBuffer> buffer)
+	std::shared_ptr<FreyaFrameBuffer> FreyaFrameBufferCache::fetchFramebufferForSize(FreyaSize framebufferSize, FreyaTextureOptions textureOptions, bool onlyTexture)
+	{
+		return std::shared_ptr<FreyaFrameBuffer>();
+	}
+
+	void FreyaFrameBufferCache::returnFramebufferToCache(std::shared_ptr<FreyaFrameBuffer> buffer)
 	{
 	}
 };

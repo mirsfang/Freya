@@ -24,7 +24,7 @@ namespace FREYA {
 		/**
 		*  @date        2020/02/16 19:55
 		*  @brief       获取当前的fbo缓存池
-		*  @return		fbo缓存池
+		*  @return		fbo 缓存池
 		**/
 		static std::shared_ptr<FreyaFrameBufferCache> currentFramebufferCache();
 

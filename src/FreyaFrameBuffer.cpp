@@ -1,15 +1,13 @@
 #include "FreyaFrameBuffer.h"
 
-#include "FreyaOutput.h"
 #include "utils/Log.h"
-#include "FreyaImage.h"
+#include "FreyaOutput.h"
 #include "FreyaContext.h"
+#include "FreyaImage.h"
 #include "extend/FreyaSemaphore.h"
-#include "FreyaFrameBufferCache.h"
 
 namespace FREYA {
-
-	FreyeFrameBuffer::FreyeFrameBuffer(GLint width, GLint height, FreyaTextureOptions textureOptions, bool onlyGenerateTexture)
+	FreyaFrameBuffer::FreyaFrameBuffer(GLint width, GLint height, FreyaTextureOptions textureOptions, bool onlyGenerateTexture)
 	{
 		this->width = width;
 		this->height = height;
@@ -31,10 +29,9 @@ namespace FREYA {
 
 		_imageCaptureSemaphore = std::make_shared<FreyaSemaphore>(0);
 		_imageCaptureSemaphore->signal();
-
 	}
 
-	FreyeFrameBuffer::FreyeFrameBuffer(GLint width, GLint height, GLuint inputTexture)
+	FreyaFrameBuffer::FreyaFrameBuffer(GLint width, GLint height, GLuint inputTexture)
 	{
 		FreyaTextureOptions defaultTextureOptions;
 		defaultTextureOptions.minFilter = GL_LINEAR;
@@ -54,18 +51,18 @@ namespace FREYA {
 		texture = inputTexture;
 	}
 
-	FreyeFrameBuffer::~FreyeFrameBuffer()
+	FreyaFrameBuffer::~FreyaFrameBuffer()
 	{
 		destoryFramebuffer();
 	}
 
-	void FreyeFrameBuffer::activateFramebuffer()
+	void FreyaFrameBuffer::activateFramebuffer()
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
 		glViewport(0, 0, width, height);
 	}
 
-	void FreyeFrameBuffer::lock()
+	void FreyaFrameBuffer::lock()
 	{
 		if (referenceCountingDisabled)
 		{
@@ -75,7 +72,7 @@ namespace FREYA {
 		framebufferReferenceCount++;
 	}
 
-	void FreyeFrameBuffer::unlock()
+	void FreyaFrameBuffer::unlock()
 	{
 		if (referenceCountingDisabled)
 		{
@@ -86,26 +83,26 @@ namespace FREYA {
 
 		if (framebufferReferenceCount < 1)
 		{
-			FreyaContext::currentFramebufferCache()->returnFramebufferToCache(this->shared_from_this());
+			//FreyaContext::currentFramebufferCache()->returnFramebufferToCache(this->shared_from_this());
 		}
 	}
 
-	void FreyeFrameBuffer::clearAllLocks()
+	void FreyaFrameBuffer::clearAllLocks()
 	{
 		framebufferReferenceCount = 0;
 	}
 
-	void FreyeFrameBuffer::disableReferenceCounting()
+	void FreyaFrameBuffer::disableReferenceCounting()
 	{
 		referenceCountingDisabled = true;
 	}
 
-	void FreyeFrameBuffer::enableReferenceCounting()
+	void FreyaFrameBuffer::enableReferenceCounting()
 	{
 		referenceCountingDisabled = false;
 	}
 
-	std::shared_ptr<FreyaImage> FreyeFrameBuffer::newImageFromFramebufferContents()
+	std::shared_ptr<FreyaImage> FreyaFrameBuffer::newImageFromFramebufferContents()
 	{
 		if (_imageCaptureSemaphore == nullptr) return nullptr;
 		if (!_imageCaptureSemaphore->waitSignal(0))return nullptr;
@@ -132,7 +129,7 @@ namespace FREYA {
 	}
 
 
-	void FreyeFrameBuffer::generateFramebuffer()
+	void FreyaFrameBuffer::generateFramebuffer()
 	{
 		runSynchronouslyOnVideoProcessingQueue([&]() {
 			FreyaContext::useImageProcessingContext();
@@ -155,7 +152,7 @@ namespace FREYA {
 			});
 	}
 
-	void FreyeFrameBuffer::generateTexture()
+	void FreyaFrameBuffer::generateTexture()
 	{
 		glActiveTexture(GL_TEXTURE1);
 		glGenTextures(1, &texture);
@@ -169,7 +166,7 @@ namespace FREYA {
 		// TODO: handle mipmaps	 
 	}
 
-	void FreyeFrameBuffer::destoryFramebuffer()
+	void FreyaFrameBuffer::destoryFramebuffer()
 	{
 		runSynchronouslyOnVideoProcessingQueue([&]() {
 			FreyaContext::useImageProcessingContext();
@@ -182,4 +179,7 @@ namespace FREYA {
 			glDeleteTextures(1, &texture);
 			});
 	}
-};
+}
+
+
+
