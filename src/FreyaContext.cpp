@@ -20,10 +20,10 @@ namespace FREYA {
 	{
 		
 #ifdef WIN32
-		platfrom
+		platfrom = std::make_shared<FreyaPlatform>();
 #endif 
 
-		return std::shared_ptr<FreyaPlatform>();
+		return platfrom;
 	}
 
 

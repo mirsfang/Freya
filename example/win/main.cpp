@@ -1,10 +1,13 @@
 #include <iostream>
 
 #include "utils/Log.h"
+#include "platform/FreyaPlatform.h"
 
 void main(){
-	FREYA::FLOG::FLOGD("Error !");
-	fr_loge("test %d",11);
+	fr_logd("Freya Begin");
+
+	FREYA::FreyaPlatform test;
+
 	int i;
 	std::cin >> i ;
 }

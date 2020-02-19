@@ -16,5 +16,5 @@ set(ALL_FILES ${PROJECT_HEADERS} ${PROJECT_CPPS})
 source_group_by_dir(ALL_FILES)
 
 add_executable(WinExample ${ALL_FILES})
-target_link_libraries(WinExample freya_win)
+target_link_libraries(WinExample freya_core freya_win)
 

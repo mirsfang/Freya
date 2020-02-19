@@ -121,7 +121,7 @@ namespace FREYA {
 
 		runOnDraw([&] {
 			auto fin = std::find(targets.begin(), targets.end(), targetToRemove);
-			int index = std::distance(targets.begin(),fin);
+			int64_t index = std::distance(targets.begin(),fin);
 			int textureIndexOfTarget = targetTextureIndices[index];
 
 			targetToRemove->setInputSize(cacheMaximumOutpuSize, textureIndexOfTarget);

@@ -6,7 +6,9 @@ set (CORE_VERSION_MINOR 0)
 
 set(CMAKE_CXX_STANDARD 14)
  
-
+set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} 
+		"${CMAKE_SOURCE_DIR}/libs/win/lib/cmake/glfw3"
+		)
 get_filename_component(PROJECT_PATH "${CMAKE_CURRENT_LIST_FILE}" PATH)
 
 #add libs
@@ -24,7 +26,8 @@ include_directories(../windows)
 #################      GLFW     ####################
 message("-----  ${CMAKE_SOURCE_DIR} ------")
 include_directories(${CMAKE_SOURCE_DIR}/libs/win/include)
-link_directories(${CMAKE_SOURCE_DIR}/libs/win)
+link_directories(${CMAKE_SOURCE_DIR}/libs/win/libs)
+find_package(glfw3 REQUIRED)
 
 #source
 file(GLOB_RECURSE PROJECT_HEADERS *.hh *.h *.hpp)

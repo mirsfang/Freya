@@ -105,7 +105,7 @@ namespace FREYA {
 		*  @brief       创建一个Context
 		*  @return		创建平台相关的Context      
 		**/
-		std::shared_ptr<FreyaPlatform> createContext();
+		std::shared_ptr<FreyaPlatform> createPlatform();
 	};
 
 	typedef std::shared_ptr<FreyaContext> FreyaContextPtr;
