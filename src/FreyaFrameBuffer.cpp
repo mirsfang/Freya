@@ -1,8 +1,6 @@
 #include "FreyaFrameBuffer.h"
 
 #include "utils/Log.h"
-#include "FreyaOutput.h"
-#include "FreyaContext.h"
 #include "FreyaImage.h"
 #include "extend/FreyaSemaphore.h"
 
@@ -16,11 +14,8 @@ namespace FREYA {
 
 		if (missingFramebuffer)
 		{
-			runSynchronouslyOnVideoProcessingQueue([&]() {
-				FreyaContext::useImageProcessingContext();
-				generateTexture();
-				framebuffer = 0;
-				});
+			generateTexture();
+			framebuffer = 0;
 		}
 		else
 		{
@@ -105,25 +100,14 @@ namespace FREYA {
 	std::shared_ptr<FreyaImage> FreyaFrameBuffer::newImageFromFramebufferContents()
 	{
 		if (_imageCaptureSemaphore == nullptr) return nullptr;
-		if (!_imageCaptureSemaphore->waitSignal(0))return nullptr;
+	
 		std::shared_ptr<FreyaImage> image = std::make_shared<FreyaImage>();
 
-		runSynchronouslyOnVideoProcessingQueue([&]() {
-			FreyaContext::useImageProcessingContext();
-
-			GLubyte* rawImagePixels;
-			activateFramebuffer();
-			rawImagePixels = (GLubyte*)malloc((size_t)width * (size_t)height * (size_t)4);
-			glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, rawImagePixels);
-			image->data = rawImagePixels;
-
-			unlock();
-			if (_imageCaptureSemaphore != nullptr)_imageCaptureSemaphore->signal();
-			});
-
-		if (!_imageCaptureSemaphore->waitSignal(10000))return nullptr;
-		if (_imageCaptureSemaphore != nullptr) _imageCaptureSemaphore->signal();
-
+		GLubyte* rawImagePixels;
+		activateFramebuffer();
+		rawImagePixels = (GLubyte*)malloc((size_t)width * (size_t)height * (size_t)4);
+		glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, rawImagePixels);
+		image->data = rawImagePixels;
 
 		return image;
 	}
@@ -131,25 +115,23 @@ namespace FREYA {
 
 	void FreyaFrameBuffer::generateFramebuffer()
 	{
-		runSynchronouslyOnVideoProcessingQueue([&]() {
-			FreyaContext::useImageProcessingContext();
-			glGenFramebuffers(1, &framebuffer);
-			glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
 
-			/// 生成与FBO绑定的texture
-			generateTexture();
+		glGenFramebuffers(1, &framebuffer);
+		glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
 
-			glBindTexture(GL_TEXTURE_2D, texture);
-			glTexImage2D(GL_TEXTURE_2D, 0, textureOptions.internalFormat, width, height, 0, textureOptions.format, textureOptions.type, 0);
-			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture, 0);
+		/// 生成与FBO绑定的texture
+		generateTexture();
 
-			GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-			if (status != GL_FRAMEBUFFER_COMPLETE) {
-				fr_logw("generate framebuffer error ! :%d", status);
-			}
+		glBindTexture(GL_TEXTURE_2D, texture);
+		glTexImage2D(GL_TEXTURE_2D, 0, textureOptions.internalFormat, width, height, 0, textureOptions.format, textureOptions.type, 0);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture, 0);
 
-			glBindTexture(GL_TEXTURE_2D, 0);
-			});
+		GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+		if (status != GL_FRAMEBUFFER_COMPLETE) {
+			fr_logw("generate framebuffer error ! :%d", status);
+		}
+
+		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 
 	void FreyaFrameBuffer::generateTexture()
@@ -168,16 +150,13 @@ namespace FREYA {
 
 	void FreyaFrameBuffer::destoryFramebuffer()
 	{
-		runSynchronouslyOnVideoProcessingQueue([&]() {
-			FreyaContext::useImageProcessingContext();
 
-			if (framebuffer) {
-				glDeleteFramebuffers(1, &framebuffer);
-				framebuffer = 0;
-			}
+		if (framebuffer) {
+			glDeleteFramebuffers(1, &framebuffer);
+			framebuffer = 0;
+		}
 
-			glDeleteTextures(1, &texture);
-			});
+		glDeleteTextures(1, &texture);
 	}
 }
 

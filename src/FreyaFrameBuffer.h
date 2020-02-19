@@ -14,6 +14,7 @@
 
 #include <memory>
 #include <glad/glad.h>
+#include "FreyaContext.h"
 
 namespace FREYA {
 
@@ -52,7 +53,7 @@ namespace FREYA {
 		FreyaFrameBuffer(GLint width, GLint height, GLuint inputTexture);
 
 		~FreyaFrameBuffer();
-	private:
+	public:
 		/// fbo 的宽度
 		GLint width{ 0 };
 		/// fbo 的高度
