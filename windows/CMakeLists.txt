@@ -21,6 +21,11 @@ endif(WIN32)
 
 include_directories(../windows)
 
+#################      GLFW     ####################
+message("-----  ${CMAKE_SOURCE_DIR} ------")
+include_directories(${CMAKE_SOURCE_DIR}/libs/win/include)
+link_directories(${CMAKE_SOURCE_DIR}/libs/win)
+
 #source
 file(GLOB_RECURSE PROJECT_HEADERS *.hh *.h *.hpp)
 file(GLOB_RECURSE PROJECT_CPPS *.cc *.c *.cpp)
@@ -34,4 +39,4 @@ add_library(${PROJECT_NAME} ${BUILD_TYPE} ${ALL_FILES})
 ## 链接头文件
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_PATH} ${RAPIDJSON_INCLUDB_DIR})
 ## 链接其他库
-target_link_libraries( ${PROJECT_NAME} PUBLIC ${EXTEND_OBJS} freya_core)
+target_link_libraries( ${PROJECT_NAME} PUBLIC ${EXTEND_OBJS} freya_core glfw3)
