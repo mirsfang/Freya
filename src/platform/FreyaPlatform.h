@@ -20,13 +20,14 @@ namespace FREYA {
 	class FreyaPlatform
 	{
 	protected:
-		/// gl context
-		void* _glContext;
 		/// 窗口宽度
 		uint32_t _width{ 0 };
 		/// 窗口高度
 		uint32_t _height{ 0 };
 	public:
+		/// gl context
+		void* _glContext;
+
 		uint32_t width() {
 			return _width;
 		}
@@ -52,6 +53,20 @@ namespace FREYA {
 		*  @brief       切换到当前上下文
 		**/
 		void makeCurrentContext();
+
+		/**
+		*  @date        2020/02/20 14:06
+		*  @brief       swapBuffer 当前context
+		**/
+		void swapBuffers();
+
+
+		/**
+		*  @date        2020/02/20 14:10
+		*  @brief       交换空间
+		*  @param[in]   platfrom  
+		**/
+		static void swapBuffers(std::shared_ptr<FreyaPlatform> platfrom);
 
 		/**
 		*  @date        2020/02/18 11:45

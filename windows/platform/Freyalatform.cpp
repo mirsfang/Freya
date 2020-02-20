@@ -1,6 +1,8 @@
 #include "..\..\src\platform\FreyaPlatform.h"
 #include "..\..\src\platform\FreyaPlatform.h"
 #include "..\..\src\platform\FreyaPlatform.h"
+#include "..\..\src\platform\FreyaPlatform.h"
+#include "..\..\src\platform\FreyaPlatform.h"
 /**
 *  Copyright (c) 2020, MirsFang
 *  All rights reserved.
@@ -71,6 +73,21 @@ namespace FREYA {
 
 		if (_glContext != glfwGetCurrentContext())
 			glfwMakeContextCurrent((GLFWwindow*)_glContext);
+	}
+
+	void FreyaPlatform::swapBuffers()
+	{
+		glfwSwapBuffers((GLFWwindow*)_glContext);
+	}
+
+	void FreyaPlatform::swapBuffers(std::shared_ptr<FreyaPlatform> platfrom)
+	{
+		if (platfrom == nullptr) {
+			fr_loge("swap buffer platform is error!");
+			return;
+		}
+
+		glfwSwapBuffers((GLFWwindow*)platfrom->_glContext);
 	}
 
 	void FreyaPlatform::unbindContext()
